@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\TeacherController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -36,4 +37,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'login'], f
     Route::get('/{admin}', [AdminController::class, 'edit'])->name('edit');
     Route::put('/{admin}', [AdminController::class, 'update'])->name('update');
     Route::delete('/{admin}', [AdminController::class, 'delete'])->name('delete');
+});
+
+
+Route::group(['prefix' => 'teacher', 'as' => 'teacher.', 'middleware' => 'login'], function () {
+
+    Route::get('/', [TeacherController::class, 'index'])->name('index');
+    Route::get('/teacher/classes', [TeacherController::class, 'classes'])->name('classes.index');
+    Route::get('/teacher/notice/{clas}', [TeacherController::class, 'notice'])->name('notice.index');
 });

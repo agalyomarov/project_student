@@ -40,7 +40,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0">Notices from Adminstrator</h1>
+                            <h1 class="m-0">Classes</h1>
                         </div><!-- /.col -->
                     </div><!-- /.row -->
                 </div><!-- /.container-fluid -->
@@ -51,19 +51,35 @@
             <section class="content">
                 <div class="container-fluid">
                     <div class="row">
-                        @foreach ($notices as $notice)
-                            <div class="col-12 bg-white mb-4">
-                                <h6>{{ $notice->created_at }}</h6>
-                                {!! $notice->notice !!}
-                                <p>
-                                <form action="{{ route('admin.notice.delete', $personal->id) }}" method="post">
-                                    @method('DELETE')
-                                    @csrf
-                                    <input type="hidden" value="{{ $notice->id }}" name="notice">
-                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                                </form>
+                        <div class="col-12 mt-5">
+                            <div class="card">
+                                <div class="card-body table-responsive p-0">
+                                    <table class="table table-hover text-nowrap">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Course</th>
+                                                <th>Students</th>
+                                                <th>Notice</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($classes as $clas)
+                                                <tr>
+                                                    <td>{{ $clas->nomer }}</td>
+                                                    <td>{{ $clas->course }}</td>
+                                                    <td>{{ $clas->students }}</td>
+                                                    <td><a href="{{ route('teacher.notice.index', $clas->id) }}">Notice</a></td>
+                                                </tr>
+                                            @endforeach
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.card-body -->
                             </div>
-                        @endforeach
+                            <!-- /.card -->
+                        </div>
                     </div>
                 </div><!-- /.container-fluid -->
             </section>
