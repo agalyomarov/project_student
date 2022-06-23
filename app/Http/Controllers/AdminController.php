@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Clas;
 use App\Models\Notice;
 use App\Models\Personal;
 use App\Models\Student;
@@ -218,5 +219,59 @@ class AdminController extends Controller
         Notice::where(['personal' => $personal->login, 'admin' => session()->get('login'), 'id' => $data['notice']])->delete();
         return redirect()->route('admin.notice.index', $personal->id);
         // dd($data);
+    }
+
+    public function classIndex()
+    {
+        $teachers = Personal::where(['role' => 'teacher', 'enable' => true])->get();
+        $students = Personal::where(['role' => 'student', 'enable' => true])->get();
+        $classes = Clas::all();
+        // dd($classes);
+        // dd($teachers);
+        return view('admin.class', compact('teachers', 'students', 'classes'));
+    }
+
+    public function classStore(Request $request)
+    {
+        $data = $request->all();
+        $validator = Validator::make(
+            $data,
+            [
+                'nomer' => ['required', 'unique:clas,nomer'],
+                'course' => ['required'],
+                'teacher' => ['required'],
+                'students' => ['required'],
+            ]
+        );
+        if ($validator->fails()) {
+            return redirect()->route('admin.class.index');
+        }
+
+        $validated = $validator->validated();
+        Personal::where('login', $validated['teacher'])->update(['enable' => false]);
+
+        foreach ($validated['students'] as $student) {
+            Personal::where('login', $student)->update(['enable' => false]);
+        }
+        $validated['students'] = json_encode($validated['students']);
+        Clas::create($validated);
+        // dd($validated);
+        return redirect()->route('admin.class.index');
+    }
+
+    public function classDelete(Request $request)
+    {
+        $data = $request->all();
+        $clas = Clas::where('nomer', $data['clas'])->first();
+        Personal::where('login', $clas->teacher)->update(['enable' => true]);
+        $students = json_decode($clas->students, true);
+        foreach ($students as $student) {
+            Personal::where('login', $student)->update(['enable' => true]);
+        }
+        $clas->delete();
+        return redirect()->route('admin.class.index');
+
+        // dd($students);
+        // dd($clas);
     }
 }

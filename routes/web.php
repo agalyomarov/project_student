@@ -27,6 +27,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'login'], f
     Route::post('/notice/{personal}', [AdminController::class, 'noticeStore'])->name('notice.store');
     Route::delete('/notice/{personal}', [AdminController::class, 'noticeDelete'])->name('notice.delete');
 
+    Route::get('/class', [AdminController::class, 'classIndex'])->name('class.index');
+    Route::post('/class', [AdminController::class, 'classStore'])->name('class.store');
+    Route::delete('/class', [AdminController::class, 'classDelete'])->name('class.delete');
 
     Route::get('/', [AdminController::class, 'index'])->name('index');
     Route::post('/', [AdminController::class, 'store'])->name('store');
