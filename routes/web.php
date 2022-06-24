@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use Illuminate\Support\Facades\Route;
 
@@ -43,6 +44,16 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'login'], f
 Route::group(['prefix' => 'teacher', 'as' => 'teacher.', 'middleware' => 'login'], function () {
 
     Route::get('/', [TeacherController::class, 'index'])->name('index');
-    Route::get('/teacher/classes', [TeacherController::class, 'classes'])->name('classes.index');
-    Route::get('/teacher/notice/{clas}', [TeacherController::class, 'notice'])->name('notice.index');
+    Route::get('/classes', [TeacherController::class, 'classes'])->name('classes.index');
+    Route::get('/info/{clas}', [TeacherController::class, 'info'])->name('info.index');
+    Route::get('/notice/{clas}', [TeacherController::class, 'notice'])->name('notice.index');
+    Route::post('/notice/{clas}', [TeacherController::class, 'noticeStore'])->name('notice.store');
+    Route::delete('/notice/{clas}', [TeacherController::class, 'noticeDelete'])->name('notice.delete');
+});
+
+Route::group(['prefix' => 'student', 'as' => 'student.', 'middleware' => 'login'], function () {
+
+    Route::get('/', [StudentController::class, 'index'])->name('index');
+    Route::get('/data', [StudentController::class, 'dataIndex'])->name('data.index');
+    Route::post('/data', [StudentController::class, 'dataStore'])->name('data.store');
 });

@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Teacher</title>
+    <title>Student</title>
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
@@ -31,7 +31,7 @@
     <div class="wrapper">
 
         <!-- Main Sidebar Container -->
-        @include('includes.teacher.sidebar')
+        @include('includes.student.sidebar')
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
@@ -40,7 +40,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0">Notices from Adminstrator</h1>
+                            <h1 class="m-0">Notices from {{ $notices[0]->teacher }}</h1>
                         </div><!-- /.col -->
                     </div><!-- /.row -->
                 </div><!-- /.container-fluid -->
@@ -55,7 +55,6 @@
                             <div class="col-12 bg-white mb-4">
                                 <h6>{{ $notice->created_at }}</h6>
                                 {!! $notice->notice !!}
-                                <p>from <b>{{ $notice->admin }}</b></p>
                             </div>
                         @endforeach
                     </div>

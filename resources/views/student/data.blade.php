@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin</title>
+    <title>Student</title>
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
@@ -31,7 +31,7 @@
     <div class="wrapper">
 
         <!-- Main Sidebar Container -->
-        @include('includes.admin.sidebar')
+        @include('includes.student.sidebar')
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
@@ -40,7 +40,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0">Teachers</h1>
+                            <h1 class="m-0">Insert my data</h1>
                         </div><!-- /.col -->
                     </div><!-- /.row -->
                 </div><!-- /.container-fluid -->
@@ -52,73 +52,32 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-6">
-                            <form method="post"
-                                action="
-                            @if (isset($teacher)) {{ route('admin.teacher.update', $teacher->id) }}
-                             @else
-                              {{ route('admin.teacher.store') }} @endif
-                            ">
+                            <form method="post" action="{{ route('student.data.store') }}">
                                 @csrf
-                                @if (isset($teacher))
-                                    @method('PUT')
-                                @endif
                                 <div class="form-group">
                                     <label>Login</label>
-                                    <input type="text" class="form-control" name="login" value="@if (isset($teacher)) {{ $teacher->login }} @endif">
+                                    <input type="text" class="form-control" value="{{ session()->get('login') }}" disabled>
                                 </div>
                                 <div class="form-group">
                                     <label>Password</label>
-                                    <input type="text" class="form-control" name="password" value="@if (isset($teacher)) {{ $teacher->password }} @endif">
+                                    <input type="text" class="form-control" value="{{ session()->get('password') }}" disabled>
                                 </div>
-                                <button type="submit" class="btn btn-primary">
-                                    @if (isset($teacher))
-                                        Update
-                                    @else
-                                        Create
-                                    @endif
-                                </button>
+                                <div class="form-group">
+                                    <label>Name</label>
+                                    <input type="text" class="form-control" name="name" value="@if (isset($student)) {{ $student->name }} @endif">
+                                </div>
+                                <div class="form-group">
+                                    <label>Phone</label>
+                                    <input type="text" class="form-control" name="phone" value="@if (isset($student)) {{ $student->phone }} @endif">
+                                </div>
+                                <div class="form-group">
+                                    <label>Location</label>
+                                    <input type="text" class="form-control" name="location" value="@if (isset($student)) {{ $student->location }} @endif">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Submit</button>
                             </form>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12 mt-5">
-                            <div class="card">
-                                <div class="card-body table-responsive p-0">
-                                    <table class="table table-hover text-nowrap">
-                                        <thead>
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>Login</th>
-                                                <th>Password</th>
-                                                <th colspan="2">Action</th>
-                                                <th>Notice</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($personals as $personal)
-                                                <tr>
-                                                    <td>{{ $personal->id }}</td>
-                                                    <td>{{ $personal->login }}</td>
-                                                    <td>{{ $personal->password }}</td>
-                                                    <td><a href="{{ route('admin.teacher.edit', $personal->id) }}">Edit</a></td>
 
-                                                    <td>
-                                                        <form action="{{ route('admin.teacher.delete', $personal->id) }}" method="POST">
-                                                            @method('delete')
-                                                            @csrf
-                                                            <input type="submit" value="Delete">
-                                                        </form>
-                                                    </td>
-                                                    <td><a href="{{ route('admin.notice.index', $personal->id) }}">Notice</a></td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <!-- /.card-body -->
-                            </div>
-                            <!-- /.card -->
-                        </div>
                     </div>
                 </div><!-- /.container-fluid -->
             </section>

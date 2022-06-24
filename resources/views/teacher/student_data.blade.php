@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin</title>
+    <title>Teacher</title>
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
@@ -31,7 +31,7 @@
     <div class="wrapper">
 
         <!-- Main Sidebar Container -->
-        @include('includes.admin.sidebar')
+        @include('includes.teacher.sidebar')
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
@@ -40,7 +40,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0">Students</h1>
+                            <h1 class="m-0">Data of students from clas {{ $clas->nomer }}</h1>
                         </div><!-- /.col -->
                     </div><!-- /.row -->
                 </div><!-- /.container-fluid -->
@@ -51,66 +51,28 @@
             <section class="content">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-6">
-                            <form method="post"
-                                action="
-                            @if (isset($student)) {{ route('admin.student.update', $student->id) }}
-                             @else
-                              {{ route('admin.student.store') }} @endif
-                            ">
-                                @csrf
-                                @if (isset($student))
-                                    @method('PUT')
-                                @endif
-                                <div class="form-group">
-                                    <label>Login</label>
-                                    <input type="text" class="form-control" name="login" value="@if (isset($student)) {{ $student->login }} @endif">
-                                </div>
-                                <div class="form-group">
-                                    <label>Password</label>
-                                    <input type="text" class="form-control" name="password" value="@if (isset($student)) {{ $student->password }} @endif">
-                                </div>
-                                <button type="submit" class="btn btn-primary">
-                                    @if (isset($student))
-                                        Update
-                                    @else
-                                        Create
-                                    @endif
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12 mt-5">
+                        <div class="col-12">
                             <div class="card">
                                 <div class="card-body table-responsive p-0">
                                     <table class="table table-hover text-nowrap">
                                         <thead>
                                             <tr>
-                                                <th>ID</th>
                                                 <th>Login</th>
-                                                <th>Password</th>
-                                                <th colspan="2">Action</th>
-                                                <th>Notice</th>
+                                                <th>Name</th>
+                                                <th>Phone</th>
+                                                <th>Location</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($personals as $personal)
+                                            @foreach ($students as $student)
                                                 <tr>
-                                                    <td>{{ $personal->id }}</td>
-                                                    <td>{{ $personal->login }}</td>
-                                                    <td>{{ $personal->password }}</td>
-                                                    <td><a href="{{ route('admin.student.edit', $personal->id) }}">Edit</a></td>
-                                                    <td>
-                                                        <form action="{{ route('admin.student.delete', $personal->id) }}" method="POST">
-                                                            @method('delete')
-                                                            @csrf
-                                                            <input type="submit" value="Delete">
-                                                        </form>
-                                                    </td>
-                                                    <td><a href="{{ route('admin.notice.index', $personal->id) }}">Notice</a></td>
+                                                    <td>{{ $student->personal->login }}</td>
+                                                    <td>{{ $student->name }}</td>
+                                                    <td>{{ $student->phone }}</td>
+                                                    <td>{{ $student->location }}</td>
                                                 </tr>
                                             @endforeach
+
                                         </tbody>
                                     </table>
                                 </div>
